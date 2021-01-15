@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <th:block th:replace="navbar/navbar :: headScripts"></th:block>
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="navbar/navbar :: navbar"></div>
+<div>
+    <form th:action="@{/add-new-meeting}" th:object="${newMeetingForm}" method="post">
+        Title: <input type="text" th:field="*{title}" placeholder="Entry title your Meeting...">
+        <span th:errors="*{title}"></span>
+        <br>
+
+        Start Meeting date: <input type="datetime-local" th:value="*{sinceDate}" th:field="*{sinceDate}"
+                                   placeholder="When start meeting?">
+        <span th:errors="*{sinceDate}"></span>
+
+        End Meeting date: <input type="datetime-local" th:value="*{toDate}" th:field="*{toDate}"
+                                 placeholder="When end meeting?">
+        <span th:errors="*{toDate}"></span>
+
+        Body: <textarea th:field="*{body}" rows="20" cols="200"></textarea>
+        <span th:errors="*{body}"></span>
+        <br>
+
+
+        <input type="submit" value="Submit">
+
+
+
+
+    </form>
+</div>
+
+</body>
+</html>

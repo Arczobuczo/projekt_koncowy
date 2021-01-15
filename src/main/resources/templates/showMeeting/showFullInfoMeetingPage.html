@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <th:block th:replace="navbar/navbar :: headScripts"></th:block>
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="navbar/navbar :: navbar"></div>
+<!--<div th:each="metting : ${meeting}">-->
+    <div>
+        <div>
+            When the Meeting starting <h2 th:text="${#temporals.format(meeting.sinceDate, 'yyyy-MM-dd')}">2020-12-05</h2>
+            To date end Meeting: <h2 th:text="${#temporals.format(meeting.toDate, 'yyyy-MM-dd')}">2020-12-05</h2>
+        </div>
+        <div>Title: <h3 th:text="${meeting.title}"></div>
+
+        Body: <h4 th:text="${meeting.body}"></h4>
+    </div>
+<!--</div>-->
+
+</body>
+</html>
