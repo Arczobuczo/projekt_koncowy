@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <th:block th:replace="navbar/navbar :: headScripts"></th:block>
+
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="showMeetings">
+    <div class="album py-auto bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-12 g-9">
+                <div th:each="meeting : ${meetings}">
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100" src="https://placeimg.com/480/320/tech" alt="First slide">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img class="d-block w-100" src="https://placeimg.com/480/320/people" alt="Second slide">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img class="d-block w-100" src="https://placeimg.com/480/320/nature/grayscale" alt="Third slide">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="container">
+                                    <div class="container">
+                                        <div class="row justify-content-between">
+                                            <div class="col-5"><a>Start date: <span th:text="${#temporals.format(meeting.sinceDate, 'yyyy-MM-dd')}"></span></a></div>
+                                            <div class="col-5"><a>End date: <span th:text="${#temporals.format(meeting.toDate, 'yyyy-MM-dd')}"></span></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-md-center">
+                                    <div class="col-md-auto">
+                                        <p class="lead text-muted text-decoration-none text-muted"><a class="text-muted text-decoration-none text-muted" th:href="@{/meeting/{meetingId}(meetingId=${meeting.id})}" th:text="${meeting.title}"></a></p>
+                                    </div>
+                                </div>
+                                <p class="card-text" th:text="${#strings.abbreviate(meeting.shortMeetingBody, 53)}"></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                    </div>
+                                    <small class="text-muted">Owner</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

@@ -10,11 +10,16 @@ import javax.validation.constraints.Size;
 @Setter
 public class NewMeetingPostCommentForm {
 
-    private String emailUser;
+    private Long meetingId;
 
     @NotNull(message = "Can not be empty")
-    @Size(max = 500, message = "Comment can be max 500 character.")
+    @Size(min = 5, max = 500, message = "Comment can be max 500 character.")
     private String commentBody;
 
-
+    @Override
+    public String toString() {
+        return "NewMeetingPostCommentForm{" +
+                "commentBody='" + commentBody + '\'' +
+                '}';
+    }
 }

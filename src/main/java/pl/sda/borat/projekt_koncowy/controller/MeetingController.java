@@ -64,15 +64,15 @@ public class MeetingController {
         return NAME_PAGE_VIEW;
     }
 
-    @GetMapping("/meeting/{meetingID}")
-    public String getFullMeeting(@PathVariable Long meetingID,
+    @GetMapping("/meeting/{meetingId}")
+    public String getFullMeeting(@PathVariable Long meetingId,
                                  Model model){
 
         final NewMeetingPostCommentForm newMeetingPostCommentForm = new NewMeetingPostCommentForm();
 
-        MeetingInfoDto allInformationMeeting = meetingService.getAllInformationMeeting(meetingID);
+        MeetingInfoDto allInformationMeeting = meetingService.getAllInformationMeeting(meetingId);
 
-        List<PostInfoDto> postsInfo = postCommentService.getAllPostToMeeting(meetingID);
+        List<PostInfoDto> postsInfo = postCommentService.getAllPostToMeeting(meetingId);
 
         model.addAttribute("newMeetingPostCommentForm", newMeetingPostCommentForm);
         model.addAttribute("meeting", allInformationMeeting);

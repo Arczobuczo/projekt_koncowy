@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 @Getter
 public class PostInfoDto {
-    private final Long id;
 
     private final String email;
 
@@ -14,8 +13,7 @@ public class PostInfoDto {
 
     private final LocalDateTime added;
 
-    public PostInfoDto(Long id, String email, String commentBody, LocalDateTime added) {
-        this.id = id;
+    public PostInfoDto(String email, String commentBody, LocalDateTime added) {
         this.email = email;
         this.commentBody = commentBody;
         this.added = added;

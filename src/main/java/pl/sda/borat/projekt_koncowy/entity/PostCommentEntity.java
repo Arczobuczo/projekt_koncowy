@@ -17,8 +17,7 @@ public class PostCommentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String emailUser;
-    
+
     @Column(length = 500)
     private String commentBody;
 
@@ -27,5 +26,8 @@ public class PostCommentEntity {
     @ManyToOne
     @JoinColumn(name = "meeting_entity_id")
     private MeetingEntity meetingEntity;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "user_entity_id")
+    private UserEntity userEntity;
 }
