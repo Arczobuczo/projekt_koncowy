@@ -4,62 +4,98 @@
     <meta charset="UTF-8">
 
     <th:block th:fragment="headScripts">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-                crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
-                integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU"
-                crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
-                integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU"
-                crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js"
-                integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
-                crossorigin="anonymous"></script></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     </th:block>
-    <title>Title</title>
+
+    <title>Meeting Place - navbar</title>
 </head>
 <body>
+
 <div th:fragment="navbar">
-    <h1>Meeting place</h1>
-    <div th:if="${loggedAs == null}">
-        <div>
-            <a th:href="@{/login-user}">Login</a>
-            <a th:href="@{/user/user-registration}">Register</a>
+    <header>
+        <div class="collapse bg-dark" id="navbarHeader">
+            <div class="container">
+                <div class="row">
+                    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" th:href="@{/}">Meeting Place</a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" th:href="@{/}">Home - page</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                           data-bs-toggle="dropdown" aria-expanded="false">
+                                            <div th:if="${loggedAs == null}">
+                                                Join us
+                                            </div>
+                                            <div th:if="${loggedAs != null}">
+                                                Menu:
+                                            </div>
+                                        </a>
+                                        <ul th:if="${loggedAs == null}" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                <li>
+                                                    <a class="dropdown-item" th:href="@{/login-user}">Login</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" th:href="@{/user/user-registration}">Register</a>
+                                                </li>
+                                        </ul>
+                                        <ul th:if="${loggedAs != null}" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                <li class="nav-item">
+                                                    <a class="dropdown-item" th:href="@{/logout-user}">Logout</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" th:href="@{/add-new-meeting}">Add new Meeting</a>
+                                                </li>
+                                        </ul>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="#">Policy</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item" th:if="${loggedAs != null}">
+                                        <a class="nav-link active" aria-current="page">Logged As: <span th:text="${loggedAs}"></span></a>
+                                    </li>
+
+
+                                </ul>
+                                <form class="d-flex" th:action="@{/meeting-search-title-conteingin-and-period}" method="get">
+                                    <input class="form-control me-2" aria-label="Search" type="text" placeholder="Search..." th:name="search"/>
+                                    <select th:name="period">
+                                        <option value="1">Future Meetings</option>
+                                        <option value="2">Current and future Meetings</option>
+                                        <option value="3" selected>All Meetings</option>
+                                    </select>
+                                    <button class="btn btn-outline-success" type="submit" value="Search">Search</button>
+                                </form>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
         </div>
-    </div>
-    <div th:if="${loggedAs != null}">
-        LoggedAs: <span th:text="${loggedAs}">...</span>
-        <h4>Menu: </h4>
-        <div>
-            <a th:href="@{/logout-user}">Logout.</a>
-            <br>
-            <a th:href="@{/add-new-meeting}">Add new Meeting</a>
+        <div class="navbar navbar-dark bg-dark shadow-sm">
+            <div class="container">
+                <a th:href="@{/}" class="navbar-brand d-flex align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"/><circle cx="12" cy="13" r="4"/></svg>
+                    <strong>Meeting Place</strong>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <strong>Menu</strong>
+                </button>
+            </div>
         </div>
-    </div>
-    <div>
-        <form th:action="@{/meeting-conteingin}" method="post">
-            <input type="search" name="search" placeholder="Search engine for meetings on our website ">
-            <input type="submit" value="Search">
-        </form>
-
-        <form th:action="@{/all-meeting}" method="get">
-            <input type="submit" value="All Meeting">
-        </form>
-
-        <form th:action="@{/present-future-meeting}" method="get">
-            <input type="submit" value="Present and future Meeting">
-        </form>
-
-        <form th:action="@{/future-meeting}" method="get">
-            <input type="submit" value="Future Meeting" >
-        </form>
-
-
-
-    </div>
+    </header>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 
 </div>
 

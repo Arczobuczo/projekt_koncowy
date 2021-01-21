@@ -1,4 +1,4 @@
-package pl.sda.borat.projekt_koncowy.Config;
+package pl.sda.borat.projekt_koncowy.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/add-new-meeting").authenticated()
+                .antMatchers("/meeting/*/comment/add").authenticated()
                 .anyRequest().permitAll()
             .and()
                 .formLogin()

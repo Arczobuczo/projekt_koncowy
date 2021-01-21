@@ -2,6 +2,7 @@ package pl.sda.borat.projekt_koncowy.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.sda.borat.projekt_koncowy.dtos.request.NewUserForm;
 import pl.sda.borat.projekt_koncowy.entity.RoleEntity;
 import pl.sda.borat.projekt_koncowy.entity.UserEntity;
@@ -25,21 +26,18 @@ public class UserService {
     }
 
 
+    @Transactional
     public void registerNewUser(NewUserForm newUserForm) {
         boolean isExistEmailInDatabase = userEntityRepository.existsByEmail(newUserForm.getEmail()); //check does userEntity exist in database
         if (isExistEmailInDatabase){
             throw new EmailExistInDatabaseException(newUserForm.getEmail());                        //if yes break/ throw exception
         }
 
-        boolean isExistRoleNameInDatabase = roleEntityRepository.existsByRoleName(ROLE_NAME);
-        final RoleEntity roleEntity;
+        RoleEntity roleEntity = roleEntityRepository
+                .findByRoleName(ROLE_NAME)
+                .orElseGet(() -> new RoleEntity(ROLE_NAME));
 
-        if (isExistRoleNameInDatabase){
-            roleEntity = roleEntityRepository.findByRoleName(ROLE_NAME);          //find role in database
 
-        } else {
-            roleEntity = roleEntityRepository.save(new RoleEntity(ROLE_NAME));    //create new role
-        }
         saveUserEntityWithRole(newUserForm, roleEntity);
     }
 

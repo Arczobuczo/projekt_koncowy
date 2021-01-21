@@ -1,4 +1,4 @@
-package pl.sda.borat.projekt_koncowy.Config;
+package pl.sda.borat.projekt_koncowy.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

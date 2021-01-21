@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 @Service
 public class MeetingService {
 
+    private static final String SORT_BY_SINCE_DATE = "sinceDate";
+
     private final UserEntityRepository userEntityRepository;
     private final UserContextService userContextService;
     private final MeetingEntityRepository meetingEntityRepository;
@@ -49,44 +51,43 @@ public class MeetingService {
 
     public List<MeetingShortInfoDto> getCurrentAndFutureMeeting(){
         LocalDateTime currentTime = LocalDateTime.now();
-        log.info("GEt curent Time {}",currentTime);
+        log.info("Get current Time {}",currentTime);
 
-        return meetingEntityRepository.findAllByToDateAfter(currentTime, Sort.by("sinceDate").ascending())
-                .stream()
-                .map(this::convertMapToDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<MeetingShortInfoDto> getAllMeeting() {
-        return meetingEntityRepository.findAll(Sort.by("sinceDate").ascending())
-                .stream()
-                .map(this::convertMapToDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<MeetingShortInfoDto> getMeetingContaining(String search){
-        return meetingEntityRepository.findAllByTitleContainingOrderBySinceDateAsc(search)
+        return meetingEntityRepository.findAllByToDateAfter(currentTime, Sort.by(SORT_BY_SINCE_DATE).ascending())
                 .stream()
                 .map(this::convertMapToDto)
                 .collect(Collectors.toList());
     }
 
 
-    public List<MeetingShortInfoDto> getFutureMeeting(){
-        final LocalDateTime currentDate = LocalDateTime.now();
+    public List<MeetingShortInfoDto> getFutureMeetingByTitleContaining(String title, Short period){
+        LocalDateTime currentTime = LocalDateTime.now();
+        log.info("Get current Time {}",currentTime);
 
-        return meetingEntityRepository.findAllBySinceDateAfterOrderBySinceDateAsc(currentDate)
-                .stream()
-                .map(this::convertMapToDto)
-                .collect(Collectors.toList());
+        switch (period) {
+            case 1:
+                return meetingEntityRepository
+                        .findAllByTitleContainingAndSinceDateAfter(title, currentTime, Sort.by(SORT_BY_SINCE_DATE).ascending())
+                        .stream()
+                        .map(this::convertMapToDto)
+                        .collect(Collectors.toList());
+            case 2:
+                return meetingEntityRepository
+                        .findAllByTitleContainingAndToDateAfter(title, currentTime, Sort.by(SORT_BY_SINCE_DATE).ascending())
+                        .stream()
+                        .map(this::convertMapToDto)
+                        .collect(Collectors.toList());
+            case 3:
+                return meetingEntityRepository
+                        .findAllByTitleContaining(title, Sort.by(SORT_BY_SINCE_DATE).ascending())
+                        .stream()
+                        .map(this::convertMapToDto)
+                        .collect(Collectors.toList());
+
+            default:
+                return List.of();
+        }
     }
-
-
-
-
-
-
-
 
     private MeetingShortInfoDto convertMapToDto(MeetingEntity meetingEntity) {              //ctrl+alt+M to cut common part of code
         return new MeetingShortInfoDto(
@@ -98,7 +99,6 @@ public class MeetingService {
     }
 
     public MeetingInfoDto getAllInformationMeeting(Long meetingID) {
-
 
         return meetingEntityRepository.findById(meetingID)
                 .map(meetingEntity -> new MeetingInfoDto(

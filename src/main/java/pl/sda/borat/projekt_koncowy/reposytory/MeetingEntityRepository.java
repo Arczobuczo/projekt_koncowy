@@ -10,13 +10,13 @@ import java.util.Optional;
 
 public interface MeetingEntityRepository extends JpaRepository<MeetingEntity, Long> {
 
+    List<MeetingEntity> findAllByTitleContainingAndToDateAfter(String title, LocalDateTime dateTime, Sort sort);
+
+    List<MeetingEntity> findAllByTitleContaining(String title, Sort sort);
+
     List<MeetingEntity> findAllByToDateAfter(LocalDateTime now, Sort sort);
 
-    List<MeetingEntity> findAllBySinceDateAfterOrderBySinceDateAsc(LocalDateTime now);
-
-    List<MeetingEntity> findAllByTitleContainingOrderBySinceDateAsc(String title);
-
-    List<MeetingEntity> findAllBySinceDateBeforeOrderBySinceDateAsc(LocalDateTime sinceDate);
+    List<MeetingEntity> findAllByTitleContainingAndSinceDateAfter(String title, LocalDateTime dateTime, Sort sort);
 
     Optional<MeetingEntity> findById(Long id);
 }

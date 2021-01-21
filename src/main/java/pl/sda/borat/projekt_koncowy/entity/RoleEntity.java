@@ -20,6 +20,7 @@ public class RoleEntity {
         this.roleName = roleName;
     }
 
+
     public RoleEntity() {
     }
 }

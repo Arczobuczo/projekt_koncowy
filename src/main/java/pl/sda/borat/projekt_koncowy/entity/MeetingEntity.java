@@ -24,9 +24,9 @@ public class MeetingEntity {
     private LocalDateTime toDate;
 
     @Column(length = 999999)
-    private String body;
+    private String  body;
 
-    @ManyToOne(fetch = FetchType.EAGER)                  //https://kobietydokodu.pl/15-relacje-jeden-do-wielu-wiele-do-jednego/
+    @ManyToOne                                    //https://kobietydokodu.pl/15-relacje-jeden-do-wielu-wiele-do-jednego/
     @JoinColumn(columnDefinition = "user_entity_id")
     private UserEntity userEntity;
 

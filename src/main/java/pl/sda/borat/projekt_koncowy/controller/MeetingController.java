@@ -6,12 +6,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.sda.borat.projekt_koncowy.dtos.MeetingInfoDto;
 import pl.sda.borat.projekt_koncowy.dtos.MeetingShortInfoDto;
+import pl.sda.borat.projekt_koncowy.dtos.PostInfoDto;
 import pl.sda.borat.projekt_koncowy.dtos.request.NewMeetingForm;
+import pl.sda.borat.projekt_koncowy.dtos.request.NewMeetingPostCommentForm;
 import pl.sda.borat.projekt_koncowy.service.MeetingService;
+import pl.sda.borat.projekt_koncowy.service.PostCommentService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class MeetingController {
@@ -20,9 +22,11 @@ public class MeetingController {
     private static final String NAME_PAGE_VIEW = "showMeeting/allMeetingPage";
 
     private final MeetingService meetingService;
+    private final PostCommentService postCommentService;
 
-    public MeetingController(MeetingService meetingService) {
+    public MeetingController(MeetingService meetingService, PostCommentService postCommentService) {
         this.meetingService = meetingService;
+        this.postCommentService = postCommentService;
     }
 
     @GetMapping("/add-new-meeting")
@@ -48,52 +52,31 @@ public class MeetingController {
         return "meeting/thankYouAddedNewMeetingPage";
     }
 
-    @PostMapping("/meeting-conteingin")
+    @GetMapping("/meeting-search-title-conteingin-and-period")             //https://www.baeldung.com/spring-thymeleaf-request-parameters
     public String getMeetingContainingByTitle(@RequestParam String search,
+                                              @RequestParam Short period,
                                               Model model){
 
-        List<MeetingShortInfoDto> meetingContaining = meetingService.getMeetingContaining(search);
+        List<MeetingShortInfoDto> meetingContaining = meetingService.getFutureMeetingByTitleContaining(search, period);
 
         model.addAttribute(MODEL_KEY, meetingContaining);
 
         return NAME_PAGE_VIEW;
     }
 
-    @GetMapping("/all-meeting")
-    public String getAllMeeting(Model model){
-
-        model.addAttribute(MODEL_KEY, meetingService.getAllMeeting());
-
-        return NAME_PAGE_VIEW;
-    }
-
-
-    @GetMapping("/present-future-meeting")
-    public String getMeetingPresent(Model model){
-
-        List<MeetingShortInfoDto> meetingBetween = meetingService.getCurrentAndFutureMeeting();
-
-        model.addAttribute(MODEL_KEY, meetingBetween);
-
-        return NAME_PAGE_VIEW;
-    }
-
-    @GetMapping("/future-meeting")
-    public String getFutureMeeting(Model model){
-
-        List<MeetingShortInfoDto> futureMeeting = meetingService.getFutureMeeting();
-
-        model.addAttribute(MODEL_KEY, futureMeeting);
-
-        return NAME_PAGE_VIEW;
-    }
     @GetMapping("/meeting/{meetingID}")
     public String getFullMeeting(@PathVariable Long meetingID,
                                  Model model){
 
+        final NewMeetingPostCommentForm newMeetingPostCommentForm = new NewMeetingPostCommentForm();
+
         MeetingInfoDto allInformationMeeting = meetingService.getAllInformationMeeting(meetingID);
 
+        List<PostInfoDto> postsInfo = postCommentService.getAllPostToMeeting(meetingID);
+
+        model.addAttribute("newMeetingPostCommentForm", newMeetingPostCommentForm);
         model.addAttribute("meeting", allInformationMeeting);
+        model.addAttribute("postsInfo", postsInfo);
 
         return "showMeeting/showFullInfoMeetingPage";
     }
