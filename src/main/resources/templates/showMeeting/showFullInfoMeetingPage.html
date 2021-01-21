@@ -61,17 +61,39 @@
                             <p class="card-text" th:text="${meeting.body}"></p>
 
                             <div>
-                                <div>
-                                    <form th:action="@{/meeting/{meetingId}/comment/add(meetingId=${meeting.id})}" th:object="${newMeetingPostCommentForm}" method="post">
-                                        Body: <textarea th:field="*{commentBody}" rows="5" class="form-control rounded-0"></textarea>
-                                        <span th:errors="*{commentBody}"></span>
-                                        <br>
-                                        <input type="submit" value="Submit">
-                                    </form>
+                                <div class="card my-4">
+                                    <h5 class="card-header">Leave a Comment:</h5>
+                                    <div class="card-body">
+                                        <form th:action="@{/meeting/{meetingId}/comment/add(meetingId=${meeting.id})}" th:object="${newMeetingPostCommentForm}" method="post">
+                                            <div class="form-group">
+                                                <textarea th:field="*{commentBody}" class="form-control" rows="3"></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div th:each="postInfo :${postsInfo}">
-                                    <p class="card-text" th:text="${postInfo.commentBody}"></p>
 
+                                <div th:each="postInfo :${postsInfo}" class="media mb-4">
+                                    <img class="d-flex mr-3 rounded-circle" src="https://icons.iconarchive.com/icons/graphicpeel/balloons/64/Small-Blue-Balloon-icon.png" alt="">
+                                    <div class="container">
+                                        <div class="container">
+                                            <div class="row justify-content-between">
+                                                <h6 class="col-4" th:text="${postInfo.email}">Commenter Name</h6>
+                                                <h6 class="col-5"> Added: <span th:text="${#temporals.format(postInfo.added, 'yyyy-MM-dd HH:mm:SS')}"></span></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card my-4">
+
+                                        <div class="card-header">
+
+                                            <div class="form-group">
+                                                <div class="card-body">
+                                                    <span th:text="${postInfo.commentBody}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
