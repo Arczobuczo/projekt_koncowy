@@ -29,12 +29,11 @@ public class UserEntity {
 
     private LocalDateTime added = LocalDateTime.now();  //data when user was registered (data generated with created new constructor)
 
-    @ManyToMany(fetch = FetchType.LAZY)                                       //default setting fetch = FetchType.LAZY do if needed
-    @JoinTable(name = "users_roles")
+    @ManyToMany                                    //default setting fetch = FetchType.LAZY do if needed
+    @JoinColumn(name = "users_roles")
     private Set<RoleEntity> roles = new HashSet<>();    //unique roles in table RoleEntity
 
     public void addRole(RoleEntity role){
         roles.add(role);
     }
-
 }

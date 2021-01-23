@@ -15,13 +15,13 @@ public class MeetingShortInfoDto {
 
     private final LocalDateTime toDate;
 
-    private final String shortMeetingBody;
+    private final String body;
 
-    public MeetingShortInfoDto(Long id, String title, LocalDateTime sinceDate, LocalDateTime toDate, String shortMeetingBody) {
+    public MeetingShortInfoDto(Long id, String title, LocalDateTime sinceDate, LocalDateTime toDate, String body) {
         this.id = id;
         this.title = title;
         this.sinceDate = sinceDate;
         this.toDate = toDate;
-        this.shortMeetingBody = shortMeetingBody;
+        this.body = body;
     }
 }

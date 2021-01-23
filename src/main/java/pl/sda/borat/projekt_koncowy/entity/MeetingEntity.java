@@ -5,6 +5,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -26,8 +30,22 @@ public class MeetingEntity {
     @Column(length = 999999)
     private String  body;
 
-    @ManyToOne                                    //https://kobietydokodu.pl/15-relacje-jeden-do-wielu-wiele-do-jednego/
-    @JoinColumn(columnDefinition = "user_entity_id")
+    @ManyToOne                                   //https://kobietydokodu.pl/15-relacje-jeden-do-wielu-wiele-do-jednego/
+    @JoinColumn(name = "user_entity_id")
     private UserEntity userEntity;
+
+
+
+    @ManyToMany
+    @JoinColumn(name = "users_registred_on_meetings")
+    private final Set<UserEntity> registerUserEntityForMeetingEntity = new HashSet<>();
+
+
+    public void signUserForMeetingEntity(UserEntity userEntity){
+        registerUserEntityForMeetingEntity.add(userEntity);
+    }
+
+    public void unsubscribeUserFromMeetingEntity(UserEntity userEntity) {registerUserEntityForMeetingEntity.remove(userEntity);}
+
 
 }

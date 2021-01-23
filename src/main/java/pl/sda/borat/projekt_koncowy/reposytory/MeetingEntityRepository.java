@@ -2,12 +2,14 @@ package pl.sda.borat.projekt_koncowy.reposytory;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import pl.sda.borat.projekt_koncowy.entity.MeetingEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface MeetingEntityRepository extends JpaRepository<MeetingEntity, Long> {
 
     List<MeetingEntity> findAllByTitleContainingAndToDateAfter(String title, LocalDateTime dateTime, Sort sort);
@@ -19,4 +21,6 @@ public interface MeetingEntityRepository extends JpaRepository<MeetingEntity, Lo
     List<MeetingEntity> findAllByTitleContainingAndSinceDateAfter(String title, LocalDateTime dateTime, Sort sort);
 
     Optional<MeetingEntity> findById(Long id);
+
+    boolean existsByIdAnd
 }

@@ -24,6 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/add-new-meeting").authenticated()
                 .antMatchers("/meeting/*/comment/add").authenticated()
+                .antMatchers("/meeting/*/register-user-for-meeting").authenticated()
+                .antMatchers("/meeting/*/unsubscribe-user-from-meeting").authenticated()
                 .anyRequest().permitAll()
             .and()
                 .formLogin()

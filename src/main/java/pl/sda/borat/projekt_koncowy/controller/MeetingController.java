@@ -1,5 +1,6 @@
 package pl.sda.borat.projekt_koncowy.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import pl.sda.borat.projekt_koncowy.service.PostCommentService;
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @Controller
 public class MeetingController {
 
@@ -66,19 +68,39 @@ public class MeetingController {
 
     @GetMapping("/meeting/{meetingId}")
     public String getFullMeeting(@PathVariable Long meetingId,
+                                 @RequestParam(required = false) String err,
                                  Model model){
 
         final NewMeetingPostCommentForm newMeetingPostCommentForm = new NewMeetingPostCommentForm();
+
+        boolean is = meetingService.isRegisteredToMeeting(meetingId,);
 
         MeetingInfoDto allInformationMeeting = meetingService.getAllInformationMeeting(meetingId);
 
         List<PostInfoDto> postsInfo = postCommentService.getAllPostToMeeting(meetingId);
 
+        model.addAttribute("err", err);
         model.addAttribute("newMeetingPostCommentForm", newMeetingPostCommentForm);
         model.addAttribute("meeting", allInformationMeeting);
         model.addAttribute("postsInfo", postsInfo);
 
         return "showMeeting/showFullInfoMeetingPage";
+    }
+
+    @PostMapping("/meeting/{meetingId}/register-user-for-meeting")
+    public String registerUserForMeeting(@PathVariable Long meetingId){
+
+        meetingService.registerUserForMeeting(meetingId);
+
+        return "redirect:/meeting/" + meetingId;
+    }
+    @PostMapping("/meeting/{meetingId}/unsubscribe-user-from-meeting")
+    public String unsubscribeUserFormMeeting(@PathVariable Long meetingId){
+
+        meetingService.unsubscribeUserFormMeeting(meetingId);
+
+        return "redirect:/meeting/" + meetingId;
+
     }
 
 }

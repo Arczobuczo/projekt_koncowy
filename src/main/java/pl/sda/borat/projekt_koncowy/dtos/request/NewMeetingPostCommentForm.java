@@ -3,6 +3,7 @@ package pl.sda.borat.projekt_koncowy.dtos.request;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -10,10 +11,10 @@ import javax.validation.constraints.Size;
 @Setter
 public class NewMeetingPostCommentForm {
 
-    private Long meetingId;
+    private Long id;
 
-    @NotNull(message = "Can not be empty")
-    @Size(min = 5, max = 500, message = "Comment can be max 500 character.")
+    @NotEmpty(message = "Can not be empty")
+    @Size(min = 5, max = 500, message = "Comment can be min 5 max 500 character.")
     private String commentBody;
 
     @Override

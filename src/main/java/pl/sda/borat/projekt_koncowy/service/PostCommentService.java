@@ -1,7 +1,9 @@
 package pl.sda.borat.projekt_koncowy.service;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.sda.borat.projekt_koncowy.dtos.PostInfoDto;
 import pl.sda.borat.projekt_koncowy.dtos.request.NewMeetingPostCommentForm;
 import pl.sda.borat.projekt_koncowy.entity.PostCommentEntity;
@@ -32,12 +34,16 @@ public class PostCommentService {
         this.userContextService = userContextService;
     }
 
+    @Transactional
     public void addNewPostCommentToMeeting(NewMeetingPostCommentForm newMeetingPostCommentForm, Long meetingID) {
+
+        String email = userContextService.getCurrentlyLoggedUserEmail();
 
         final PostCommentEntity postCommentEntity = new PostCommentEntity();
 
         postCommentEntity.setCommentBody(newMeetingPostCommentForm.getCommentBody());
-        postCommentEntity.setUserEntity(userEntityRepository.findUserEntityByEmail(userContextService.getCurrentlyLoggedUserEmail()));
+        postCommentEntity.setUserEntity(userEntityRepository.findUserEntityByEmail(email)
+        .orElseThrow(() -> new UsernameNotFoundException(email)));
         postCommentEntity.setMeetingEntity(meetingEntityRepository.findById(meetingID)
                 .orElseThrow(() -> new PostIdDoesntExistException(meetingID)));
 

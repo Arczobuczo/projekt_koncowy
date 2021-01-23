@@ -35,13 +35,13 @@ public class UserService {
 
         RoleEntity roleEntity = roleEntityRepository
                 .findByRoleName(ROLE_NAME)
-                .orElseGet(() -> new RoleEntity(ROLE_NAME));
+                .orElseGet(() -> roleEntityRepository.save(new RoleEntity(ROLE_NAME)));
 
 
         saveUserEntityWithRole(newUserForm, roleEntity);
     }
 
-    private void saveUserEntityWithRole(NewUserForm newUserForm, RoleEntity roleEntity) {   //ctrl+alt+M to cut common part of code
+    public void saveUserEntityWithRole(NewUserForm newUserForm, RoleEntity roleEntity) {   //ctrl+alt+M to cut common part of code
         final UserEntity userEntity = new UserEntity();                     //created LocalDateAndTime
 
         userEntity.setEmail(newUserForm.getEmail());                        //fill userEntity all dates

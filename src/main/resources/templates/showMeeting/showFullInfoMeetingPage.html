@@ -13,15 +13,10 @@
             <div class="col-lg-12 col-md-9 mx-auto">
                 <h1 class="solid" >Here you have full information about the Meeting</h1>
                 <h3 class="solid" th:text="${meeting.title}"></h3>
-                <!--                                        <p>-->
-                <!--                                            <a href="#" class="btn btn-primary my-2">Main call to action</a>-->
-                <!--                                            <a href="#" class="btn btn-secondary my-2">Secondary action</a>-->
-                <!--                                        </p>-->
             </div>
         </div>
     </section>
 </main>
-
 
 <div class="album py-auto bg-light">
     <div class="container-sm .col-sm-">
@@ -47,12 +42,27 @@
                         <div class="card-body">
                             <div class="container">
                                 <div class="container">
+                                        <div th:if="${loggedAs != null}" class="py-5 text-center container">
+                                            <form th:action="@{/meeting/{meetingId}/register-user-for-meeting(meetingId=${meeting.id})}" method="post">
+                                                <button class="btn btn-primary my-2" type="submit">Register me to this Meeting</button>
+                                            </form>
+                                        </div>
+                                        <div th:if="${loggedAs != null}" class="py-5 text-center container">
+                                            <a  class="btn btn-secondary my-2" >Remove</a>
+                                        </div >
+                                        <div th:if="${loggedAs == null}" class="py-5 text-center container">
+                                             <h4>If you want to Sign to Meeting You have to Logg in: </h4>
+                                             <a th:href="@{/login-user}" class="btn btn-secondary my-2" >You are not logged in</a>
+                                        </div >
+
+                                    <hr>
                                     <div class="row justify-content-between">
                                         <div class="col-5"><a>Start date: <span th:text="${#temporals.format(meeting.sinceDate, 'yyyy-MM-dd')}"></span></a></div>
                                         <div class="col-5"><a>End date: <span th:text="${#temporals.format(meeting.toDate, 'yyyy-MM-dd')}"></span></a></div>
                                     </div>
                                 </div>
                             </div>
+                            <hr>
                             <div class="row justify-content-md-center">
                                 <div class="col-md-auto">
                                     <p class="lead text-muted text-decoration-none text-muted"><a class="text-muted text-decoration-none text-muted" th:href="@{/meeting/{meetingId}(meetingId=${meeting.id})}" th:text="${meeting.title}"></a></p>
@@ -61,17 +71,7 @@
                             <p class="card-text" th:text="${meeting.body}"></p>
 
                             <div>
-                                <div class="card my-4">
-                                    <h5 class="card-header">Leave a Comment:</h5>
-                                    <div class="card-body">
-                                        <form th:action="@{/meeting/{meetingId}/comment/add(meetingId=${meeting.id})}" th:object="${newMeetingPostCommentForm}" method="post">
-                                            <div class="form-group">
-                                                <textarea th:field="*{commentBody}" class="form-control" rows="3"></textarea>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </form>
-                                    </div>
-                                </div>
+                                <div th:replace="postComment/postCommentForm :: postForm"></div>
 
                                 <div th:each="postInfo :${postsInfo}" class="media mb-4">
                                     <img class="d-flex mr-3 rounded-circle" src="https://icons.iconarchive.com/icons/graphicpeel/balloons/64/Small-Blue-Balloon-icon.png" alt="">

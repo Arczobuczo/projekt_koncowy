@@ -3,11 +3,15 @@ package pl.sda.borat.projekt_koncowy.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.sda.borat.projekt_koncowy.dtos.MeetingInfoDto;
 import pl.sda.borat.projekt_koncowy.dtos.MeetingShortInfoDto;
 import pl.sda.borat.projekt_koncowy.dtos.request.NewMeetingForm;
 import pl.sda.borat.projekt_koncowy.entity.MeetingEntity;
+import pl.sda.borat.projekt_koncowy.entity.UserEntity;
+import pl.sda.borat.projekt_koncowy.exeception.MeetingDoesntExistException;
 import pl.sda.borat.projekt_koncowy.exeception.PostIdDoesntExistException;
+import pl.sda.borat.projekt_koncowy.exeception.UserDoesntExistException;
 import pl.sda.borat.projekt_koncowy.reposytory.MeetingEntityRepository;
 import pl.sda.borat.projekt_koncowy.reposytory.UserEntityRepository;
 
@@ -35,7 +39,10 @@ public class MeetingService {
     }
 
 
+    @Transactional
     public void addNewMeeting(NewMeetingForm newMeetingForm) {
+
+        final String email = userContextService.getCurrentlyLoggedUserEmail();
 
         final MeetingEntity meetingEntity = new MeetingEntity();
 
@@ -44,7 +51,8 @@ public class MeetingService {
         meetingEntity.setSinceDate(newMeetingForm.getSinceDate());
         meetingEntity.setToDate(newMeetingForm.getToDate());
         meetingEntity.setUserEntity(userEntityRepository
-                .findUserEntityByEmail(userContextService.getCurrentlyLoggedUserEmail()));
+                .findUserEntityByEmail(email)
+        .orElseThrow(() -> new UserDoesntExistException(email)));
 
         meetingEntityRepository.save(meetingEntity);
     }
@@ -110,5 +118,41 @@ public class MeetingService {
                 ))
                 .orElseThrow(() -> new PostIdDoesntExistException(meetingID));
 
+    }
+
+    @Transactional
+    public void registerUserForMeeting(Long meetingId) {
+        final String email = userContextService.getCurrentlyLoggedUserEmail();
+
+        final UserEntity userEntity = userEntityRepository.findUserEntityByEmail(email)
+                .orElseThrow(() -> new UserDoesntExistException(email));
+
+        final MeetingEntity meetingEntity = meetingEntityRepository.findById(meetingId)
+                .orElseThrow(() -> new MeetingDoesntExistException(meetingId));
+
+        meetingEntity.signUserForMeetingEntity(userEntity);
+
+        meetingEntityRepository.save(meetingEntity);
+
+
+    }
+
+    @Transactional
+    public void unsubscribeUserFormMeeting(Long meetingId){
+        final String email = userContextService.getCurrentlyLoggedUserEmail();
+
+        final UserEntity userEntity = userEntityRepository.findUserEntityByEmail(email)
+                .orElseThrow(() -> new UserDoesntExistException(email));
+
+        final MeetingEntity meetingEntity = meetingEntityRepository.findById(meetingId)
+                .orElseThrow(() -> new MeetingDoesntExistException(meetingId));
+
+        meetingEntity.unsubscribeUserFromMeetingEntity(userEntity);
+
+        meetingEntityRepository.save(meetingEntity);
+    }
+
+    public boolean isRegisteredToMeeting(Long meetingId, String currentlyLoggedUser){
+        return meetingEntityRepository.existsByIdAndAndUserEntityEmail(meetingId, currentlyLoggedUser);
     }
 }

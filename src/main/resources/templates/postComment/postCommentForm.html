@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <th:block th:replace="navbar/navbar :: headScripts"></th:block>
+
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="postForm">
+    <div class="card my-4">
+        <h5 class="card-header">Leave a Comment:</h5>
+        <div class="card-body">
+            <form th:action="@{/meeting/{meetingId}/comment/add(meetingId=${meeting.id})}" th:object="${newMeetingPostCommentForm}" method="post">
+                <div class="form-group">
+                    <textarea th:field="*{commentBody}" class="form-control" rows="3"></textarea>
+                    <span th:text="${err}"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+</div>
+</div>
+</body>
+</html>

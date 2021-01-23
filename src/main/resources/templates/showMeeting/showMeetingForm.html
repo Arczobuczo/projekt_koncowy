@@ -41,7 +41,7 @@
                                         <p class="lead text-muted text-decoration-none text-muted"><a class="text-muted text-decoration-none text-muted" th:href="@{/meeting/{meetingId}(meetingId=${meeting.id})}" th:text="${meeting.title}"></a></p>
                                     </div>
                                 </div>
-                                <p class="card-text" th:text="${#strings.abbreviate(meeting.shortMeetingBody, 53)}"></p>
+                                <p class="card-text" th:text="${#strings.abbreviate(meeting.body, 53)}"></p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
