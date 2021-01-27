@@ -4,6 +4,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import pl.sda.borat.projekt_koncowy.dtos.ErrorMessageBindingResult;
 import pl.sda.borat.projekt_koncowy.dtos.PostInfoDto;
 import pl.sda.borat.projekt_koncowy.dtos.request.NewMeetingPostCommentForm;
 import pl.sda.borat.projekt_koncowy.entity.PostCommentEntity;
@@ -22,7 +24,6 @@ public class PostCommentService {
     private final MeetingEntityRepository meetingEntityRepository;
     private final UserEntityRepository userEntityRepository;
     private final UserContextService userContextService;
-
 
     public PostCommentService(PostCommentEntityRepository postCommentEntityRepository,
                               MeetingEntityRepository meetingEntityRepository,
@@ -50,6 +51,7 @@ public class PostCommentService {
         postCommentEntityRepository.save(postCommentEntity);
     }
 
+    @Transactional
     public List<PostInfoDto> getAllPostToMeeting(Long meetingID) {
 
         return postCommentEntityRepository.

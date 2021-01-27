@@ -13,7 +13,7 @@ public class NewMeetingPostCommentForm {
 
     private Long id;
 
-    @NotEmpty(message = "Can not be empty")
+    @NotEmpty(message = "Can not be empty.")
     @Size(min = 5, max = 500, message = "Comment can be min 5 max 500 character.")
     private String commentBody;
 

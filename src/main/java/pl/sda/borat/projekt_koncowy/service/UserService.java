@@ -41,6 +41,7 @@ public class UserService {
         saveUserEntityWithRole(newUserForm, roleEntity);
     }
 
+    @Transactional
     public void saveUserEntityWithRole(NewUserForm newUserForm, RoleEntity roleEntity) {   //ctrl+alt+M to cut common part of code
         final UserEntity userEntity = new UserEntity();                     //created LocalDateAndTime
 
@@ -51,5 +52,7 @@ public class UserService {
 
         userEntityRepository.save(userEntity);
     }
+
+
 
 }

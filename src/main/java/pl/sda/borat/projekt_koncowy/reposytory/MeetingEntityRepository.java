@@ -22,5 +22,7 @@ public interface MeetingEntityRepository extends JpaRepository<MeetingEntity, Lo
 
     Optional<MeetingEntity> findById(Long id);
 
-    boolean existsByIdAnd
+    boolean existsByIdAndRegisterUserEntityForMeetingEntityEmail(Long userID, String userEmail);
+
+    List<MeetingEntity> findAllByRegisterUserEntityForMeetingEntityEmail(String userEmail);
 }

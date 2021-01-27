@@ -23,11 +23,11 @@ public class PostCommentEntity {
 
     private LocalDateTime added = LocalDateTime.now();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meeting_entity_id")
     private MeetingEntity meetingEntity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_entity_id")
     private UserEntity userEntity;
 }

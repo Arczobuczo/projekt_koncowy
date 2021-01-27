@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sda.borat.projekt_koncowy.dtos.MeetingInfoDto;
 import pl.sda.borat.projekt_koncowy.dtos.MeetingShortInfoDto;
+import pl.sda.borat.projekt_koncowy.dtos.RegisterUserDto;
 import pl.sda.borat.projekt_koncowy.dtos.request.NewMeetingForm;
 import pl.sda.borat.projekt_koncowy.entity.MeetingEntity;
 import pl.sda.borat.projekt_koncowy.entity.UserEntity;
@@ -132,7 +133,6 @@ public class MeetingService {
 
         meetingEntity.signUserForMeetingEntity(userEntity);
 
-        meetingEntityRepository.save(meetingEntity);
 
 
     }
@@ -149,10 +149,18 @@ public class MeetingService {
 
         meetingEntity.unsubscribeUserFromMeetingEntity(userEntity);
 
-        meetingEntityRepository.save(meetingEntity);
     }
 
     public boolean isRegisteredToMeeting(Long meetingId, String currentlyLoggedUser){
-        return meetingEntityRepository.existsByIdAndAndUserEntityEmail(meetingId, currentlyLoggedUser);
+        return meetingEntityRepository.existsByIdAndRegisterUserEntityForMeetingEntityEmail(meetingId, currentlyLoggedUser);
+    }
+
+    @Transactional
+    public List<RegisterUserDto> getAllRegisteredMeetingForUser(String currentlyLogedUsser){
+        return meetingEntityRepository
+                .findAllByRegisterUserEntityForMeetingEntityEmail(currentlyLogedUsser)
+                .stream()
+                .map(meetingEntity -> new RegisterUserDto(meetingEntity.getId(), meetingEntity.getTitle()))
+                .collect(Collectors.toList());
     }
 }

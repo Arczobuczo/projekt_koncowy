@@ -30,13 +30,13 @@ public class MeetingEntity {
     @Column(length = 999999)
     private String  body;
 
-    @ManyToOne                                   //https://kobietydokodu.pl/15-relacje-jeden-do-wielu-wiele-do-jednego/
+    @ManyToOne(fetch = FetchType.LAZY)                                   //https://kobietydokodu.pl/15-relacje-jeden-do-wielu-wiele-do-jednego/
     @JoinColumn(name = "user_entity_id")
     private UserEntity userEntity;
 
 
 
-    @ManyToMany
+    @ManyToMany()
     @JoinColumn(name = "users_registred_on_meetings")
     private final Set<UserEntity> registerUserEntityForMeetingEntity = new HashSet<>();
 

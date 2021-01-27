@@ -18,8 +18,13 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            <span th:each="error : ${listOfErrors}">
+<!--            <a th:text="${listOfErrors}"></a>-->
+                        <a th:text="${error.defaultMessage}"></a>
+<!--                        <a th:text="${error.size}"></a>-->
+                    </span>
         </div>
-</div>
+    </div>
 </div>
 </body>
 </html>

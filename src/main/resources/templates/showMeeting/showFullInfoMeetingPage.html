@@ -42,16 +42,30 @@
                         <div class="card-body">
                             <div class="container">
                                 <div class="container">
-                                        <div th:if="${loggedAs != null}" class="py-5 text-center container">
+                                        <div th:if="${loggedAs != null && !isRegisteredToMeeting}" class="py-5 text-center container">
                                             <form th:action="@{/meeting/{meetingId}/register-user-for-meeting(meetingId=${meeting.id})}" method="post">
                                                 <button class="btn btn-primary my-2" type="submit">Register me to this Meeting</button>
                                             </form>
                                         </div>
-                                        <div th:if="${loggedAs != null}" class="py-5 text-center container">
-                                            <a  class="btn btn-secondary my-2" >Remove</a>
+                                        <div th:if="${loggedAs != null && isRegisteredToMeeting}" class="py-5 text-center container">
+                                            <a  class="btn btn-secondary my-2" th:href="@{/meeting/{meetingId}/unsubscribe-user-from-meeting(meetingId=${meeting.id})}">Unsubscribe from this meeting</a>
+                                        </div>
+                                            <div class="card my-4" th:if="${!meetingForUsers.isEmpty()}">
+                                                <h5 class="card-header">You are registered up for meetings...</h5>
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <ul>
+                                                            <li th:each="meetingForUser :${meetingForUsers}">
+                                                                <a class="text-muted text-decoration-none text-muted" th:text="${meetingForUser.title}" th:href="@{/meeting/{meetingId}(meetingId=${meetingForUser.id})}"></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         </div >
                                         <div th:if="${loggedAs == null}" class="py-5 text-center container">
-                                             <h4>If you want to Sign to Meeting You have to Logg in: </h4>
+                                             <h4>If you want to register to Meeting You have to Logg in: </h4>
                                              <a th:href="@{/login-user}" class="btn btn-secondary my-2" >You are not logged in</a>
                                         </div >
 
