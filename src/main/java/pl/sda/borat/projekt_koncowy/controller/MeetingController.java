@@ -63,7 +63,7 @@ public class MeetingController {
                                               @RequestParam Short period,
                                               Model model){
 
-        List<MeetingShortInfoDto> meetingContaining = meetingService.getFutureMeetingByTitleContaining(search, period);
+        List<MeetingShortInfoDto> meetingContaining = meetingService.getMeetingByTitleContainingWithPiriod(search, period);
 
         model.addAttribute(MODEL_KEY, meetingContaining);
 

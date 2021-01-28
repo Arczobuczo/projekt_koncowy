@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 public class ErrorMessageBindingResult {
     private final String defaultMessage;
 
@@ -12,4 +11,10 @@ public class ErrorMessageBindingResult {
         this.defaultMessage = defaultMessage;
     }
 
+    @Override
+    public String toString() {
+        return "ErrorMessageBindingResult{" +
+                "defaultMessage='" + defaultMessage + '\'' +
+                '}';
+    }
 }

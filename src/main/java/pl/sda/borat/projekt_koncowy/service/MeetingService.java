@@ -69,9 +69,10 @@ public class MeetingService {
     }
 
 
-    public List<MeetingShortInfoDto> getFutureMeetingByTitleContaining(String title, Short period){
+    public List<MeetingShortInfoDto> getMeetingByTitleContainingWithPiriod(String title, Short period){
         LocalDateTime currentTime = LocalDateTime.now();
         log.info("Get current Time {}",currentTime);
+        log.info("Get current period {}",period);
 
         switch (period) {
             case 1:

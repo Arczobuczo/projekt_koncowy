@@ -2,11 +2,9 @@ package pl.sda.borat.projekt_koncowy.dtos;
 
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Setter
 @Getter
 public class MeetingInfoDto {
 

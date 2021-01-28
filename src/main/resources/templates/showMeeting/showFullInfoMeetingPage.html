@@ -50,7 +50,7 @@
                                         <div th:if="${loggedAs != null && isRegisteredToMeeting}" class="py-5 text-center container">
                                             <a  class="btn btn-secondary my-2" th:href="@{/meeting/{meetingId}/unsubscribe-user-from-meeting(meetingId=${meeting.id})}">Unsubscribe from this meeting</a>
                                         </div>
-                                            <div class="card my-4" th:if="${!meetingForUsers.isEmpty()}">
+                                            <div class="card my-4" th:if="${loggedAs != null}">
                                                 <h5 class="card-header">You are registered up for meetings...</h5>
                                                 <div class="card-body">
                                                     <div class="form-group">
